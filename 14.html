@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Be My Valentine 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pacifico', cursive;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: white;
+    }
+
+    .screen {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* ---------- PAGE 1 ---------- */
+    #page1 h1 {
+      font-size: 3rem;
+      color: black;
+      margin-bottom: 40px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+
+    button {
+      font-size: 1.2rem;
+      padding: 15px 30px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+      background: #ff4d88;
+      color: white;
+      border: none;
+      box-shadow: 0 0 15px rgba(255, 77, 136, 0.4);
+    }
+
+    #yesBtn:hover {
+      box-shadow: 0 0 25px rgba(255, 77, 136, 0.8);
+      transform: scale(1.05);
+    }
+
+    #noBtn {
+      background: transparent;
+      color: #888;
+      border: 2px dashed #ffb6c1;
+      position: absolute;
+    }
+
+    .puppy-eyes {
+      position: absolute;
+      font-size: 2rem;
+      pointer-events: none;
+      display: none;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: pink;
+      animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* ---------- PAGE 2 ---------- */
+    #page2 {
+      display: none;
+      background: linear-gradient(to bottom, #ffe6f0, white);
+    }
+
+    #page2 h1 {
+      font-size: 3rem;
+      color: #ff1a75;
+      margin-bottom: 20px;
+    }
+
+    .dance {
+      font-size: 3rem;
+      animation: dance 1s infinite alternate ease-in-out;
+    }
+
+    @keyframes dance {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-20px); }
+    }
+
+    .celebrate-heart {
+      position: absolute;
+      font-size: 24px;
+      animation: celebrate 4s linear infinite;
+    }
+
+    @keyframes celebrate {
+      from {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-10vh) scale(1.8);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      #page1 h1,
+      #page2 h1 {
+        font-size: 2.2rem;
+      }
+    }
+    
+    .bear-gif {
+  width: 160px;
+  margin: 20px 0 30px;
+  animation: bearBounce 2s infinite ease-in-out;
+}
+
+@keyframes bearBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.celebrate-gif {
+  width: 180px;
+  margin: 25px 0;
+  animation: popIn 0.8s ease-out;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="screen" id="page1">
+    <h1>Will you be my Valentine? 💖</h1>
+    
+     <img src="valentine-bear.gif" alt="Cute Valentine Bear" class="bear-gif" />
+
+
+    <div class="buttons">
+      <button id="yesBtn">YES 💕</button>
+      <button id="noBtn">NO 😶</button>
+      <div class="puppy-eyes" id="eyes">🥺</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="screen" id="page2">
+    <h1>Yesssssss… best decision everrr 💖</h1>
+     <img src="celebration1.gif" alt="Celebration Bear" class="celebrate-gif" />
+    <div class="dance">🕺💃🕺</div>
+  </div>
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const eyes = document.getElementById("eyes");
+  const yesBtn = document.getElementById("yesBtn");
+  const page1 = document.getElementById("page1");
+  const page2 = document.getElementById("page2");
+
+  // Set initial position
+  noBtn.style.position = "fixed";
+  noBtn.style.left = "55%";
+  noBtn.style.top = "55%";
+
+  function moveNoButton() {
+    const margin = 10;
+
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - btnWidth - margin;
+    const maxY = window.innerHeight - btnHeight - margin;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.transition = "all 0.35s ease-out";
+    noBtn.style.left = `${Math.max(margin, x)}px`;
+    noBtn.style.top = `${Math.max(margin, y)}px`;
+
+    // Puppy eyes follow button
+    eyes.style.display = "block";
+    eyes.style.left = `${Math.min(x + 10, maxX)}px`;
+    eyes.style.top = `${Math.max(y - 35, margin)}px`;
+  }
+
+  // Desktop hover
+  noBtn.addEventListener("mouseenter", moveNoButton);
+
+  // Mobile touch safety
+  noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveNoButton();
+  });
+
+  // YES button logic
+  yesBtn.addEventListener("click", () => {
+    page1.style.display = "none";
+    page2.style.display = "flex";
+    startCelebration();
+  });
+
+  function startCelebration() {
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "celebrate-heart";
+      heart.innerText = "🥰";
+      heart.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }, 300);
+  }
+</script>
+
+</body>
+</html>
